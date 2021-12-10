@@ -4,8 +4,8 @@ import com.banck.wallet.infraestructure.repository.MovementCrudRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import com.banck.wallet.aplication.model.MovementRepository;
-import com.banck.wallet.infraestructure.repository.PersonCrudRepository;
-import com.banck.wallet.aplication.model.PersonRepository;
+import com.banck.wallet.infraestructure.repository.WalletCrudRepository;
+import com.banck.wallet.aplication.model.WalletRepository;
 
 /**
  *
@@ -13,14 +13,14 @@ import com.banck.wallet.aplication.model.PersonRepository;
  */
 @Configuration
 public class SpringConfiguration {
-    
+
     @Bean
     public MovementRepository movementRepository() {
         return new MovementCrudRepository();
     }
-    
+
     @Bean
-    public PersonRepository personRepository() {
-        return new PersonCrudRepository();
+    public WalletRepository personRepository() {
+        return new WalletCrudRepository();
     }
 }

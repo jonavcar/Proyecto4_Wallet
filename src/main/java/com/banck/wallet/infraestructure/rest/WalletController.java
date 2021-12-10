@@ -1,6 +1,6 @@
 package com.banck.wallet.infraestructure.rest;
 
-import com.banck.wallet.domain.Person;
+import com.banck.wallet.domain.Wallet;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,52 +15,53 @@ import reactor.core.publisher.Mono;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.Random;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
-import com.banck.wallet.aplication.PersonOperations;
+import com.banck.wallet.utils.Status;
 import org.springframework.http.HttpStatus;
+import com.banck.wallet.aplication.WalletOperations;
 
 /**
  *
  * @author jonavcar
  */
 @RestController
-@RequestMapping("/wallet/person")
+@RequestMapping("/wallet")
 @RequiredArgsConstructor
-public class PersonController {
+public class WalletController {
 
-    Logger logger = LoggerFactory.getLogger(PersonController.class);
+    Logger logger = LoggerFactory.getLogger(WalletController.class);
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
     DateTimeFormatter formatTime = DateTimeFormatter.ofPattern("HH:mm:ss");
     DateTimeFormatter formatDate = DateTimeFormatter.ofPattern("dd-MM-yyyy");
     LocalDateTime dateTime = LocalDateTime.now(ZoneId.of("America/Bogota"));
-    private final PersonOperations operations;
+    private final WalletOperations operations;
 
     @GetMapping
-    public Flux<Person> listAll() {
+    public Flux<Wallet> listAll() {
         return operations.list();
     }
 
     @GetMapping("/{id}")
-    public Mono<Person> get(@PathVariable("id") String id) {
+    public Mono<Wallet> get(@PathVariable("id") String id) {
         return operations.get(id);
     }
 
     @PostMapping
-    public Mono<ResponseEntity> create(@RequestBody Person person) {
-        person.setPerson("WL-" + getRandomNumberString());
-        person.setDate(dateTime.format(formatDate));
-        person.setState(true);
-        return operations.create(person).flatMap(pR -> {
-            return Mono.just(new ResponseEntity(pR, HttpStatus.OK));
+    public Mono<ResponseEntity> create(@RequestBody Wallet wallet) {
+        return operations.create(wallet).flatMap(pR -> {
+            if (pR.getStatus() == Status.OK) {
+                return Mono.just(new ResponseEntity(pR.getData(), HttpStatus.OK));
+            } else {
+                return Mono.just(new ResponseEntity(pR.getMessage(), HttpStatus.BAD_REQUEST));
+            }
         });
     }
 
     @PutMapping("/{id}")
-    public Mono<Person> update(@PathVariable("id") String id, @RequestBody Person movement) {
-        return operations.update(id, movement);
+    public Mono<Wallet> update(@PathVariable("id") String id, @RequestBody Wallet wallet) {
+        return operations.update(id, wallet);
     }
 
     @DeleteMapping("/{id}")
@@ -68,9 +69,4 @@ public class PersonController {
         operations.delete(id);
     }
 
-    public static String getRandomNumberString() {
-        Random rnd = new Random();
-        int number = rnd.nextInt(999999);
-        return String.format("%06d", number);
-    }
 }

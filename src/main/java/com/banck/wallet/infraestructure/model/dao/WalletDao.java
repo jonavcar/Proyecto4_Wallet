@@ -10,13 +10,13 @@ import org.springframework.data.mongodb.core.mapping.Document;
  */
 @Data
 @Document("wallet")
-public class PersonDao {
+public class WalletDao {
 
     @Id
+    public String telephone;
     public String person;
     public String document;
     public String documentType;
-    public String telephone;
     public String imei;
     public String mail;
     public String date;

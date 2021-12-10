@@ -7,7 +7,7 @@ import lombok.Data;
  * @author jonavcar
  */
 @Data
-public class Person {
+public class Wallet {
 
     public String person;
     public String document;
