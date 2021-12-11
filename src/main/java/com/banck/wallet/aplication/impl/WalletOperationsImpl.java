@@ -32,25 +32,25 @@ public class WalletOperationsImpl implements WalletOperations {
     DateTimeFormatter formatDate = DateTimeFormatter.ofPattern("dd-MM-yyyy");
     LocalDateTime dateTime = LocalDateTime.now(ZoneId.of("America/Bogota"));
 
-    private final WalletRepository personRepository;
+    private final WalletRepository walletRepository;
     public ResponseService responseService;
 
     @Override
     public Flux<Wallet> list() {
-        return personRepository.list();
+        return walletRepository.list();
     }
 
     @Override
     public Mono<Wallet> get(String wallet) {
-        return personRepository.get(wallet);
+        return walletRepository.get(wallet);
     }
 
     @Override
     public Mono<ResponseService> create(Wallet wallet) {
-        return validateDataPersonCreate(wallet).flatMap(RS -> {
+        return validateDataWalletToCreate(wallet).flatMap(RS -> {
             responseService = RS;
             if (responseService.getStatus() == Status.OK) {
-                return personRepository.get(wallet.getTelephone()).flatMap(walletR -> {
+                return walletRepository.get(wallet.getTelephone()).flatMap(walletR -> {
                     responseService.setStatus(Status.ERROR);
                     responseService.setMessage("El wallet " + wallet.getTelephone() + " Ya existe!!");
                     responseService.setData(wallet);
@@ -64,32 +64,32 @@ public class WalletOperationsImpl implements WalletOperations {
 
     @Override
     public Mono<Wallet> update(String wallet, Wallet c) {
-        return personRepository.update(wallet, c);
+        return walletRepository.update(wallet, c);
     }
 
     @Override
     public void delete(String wallet) {
-        personRepository.delete(wallet);
+        walletRepository.delete(wallet);
     }
 
     @Override
     public Flux<Wallet> listByDocument(String document) {
-        return personRepository.listByDocument(document);
+        return walletRepository.listByDocument(document);
     }
 
     public Mono<ResponseService> insertWallet(Wallet wallet) {
         responseService = new ResponseService();
-        wallet.setPerson("WL-" + wallet.getTelephone() + "-" + generateNumbers());
+        wallet.setPerson(wallet.getTelephone());
         wallet.setDate(dateTime.format(formatDate));
         wallet.setState(true);
-        return personRepository.create(wallet).flatMap(w -> {
+        return walletRepository.create(wallet).flatMap(w -> {
             responseService.setStatus(Status.OK);
             responseService.setData(w);
             return Mono.just(responseService);
         });
     }
 
-    public Mono<ResponseService> validateDataPersonCreate(Wallet wallet) {
+    public Mono<ResponseService> validateDataWalletToCreate(Wallet wallet) {
         responseService = new ResponseService();
         responseService.setStatus(Status.ERROR);
         return Mono.just(wallet).flatMap(fm -> {

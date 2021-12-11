@@ -1,66 +1,47 @@
 package com.banck.wallet.infraestructure.mockRepository;
 
-import com.banck.wallet.domain.Movement;
-import java.util.ArrayList;
-import java.util.List;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import com.banck.wallet.aplication.model.MovementRepository;
+import com.banck.wallet.aplication.model.WalletRepository;
+import com.banck.wallet.domain.Wallet;
 
 /**
  *
  * @author jonavcar
  */
 @Component
-public class MockMovementRepository implements MovementRepository {
+public class MockMovementRepository implements WalletRepository {
 
     @Override
-    public Mono<Movement> get(String credito) {
-        Movement c = new Movement();
-        c.setProduct("34984545");
-        c.setCustomer("CTP");
-        return Mono.just(c);
-    }
-
-    @Override
-    public Flux<Movement> list() {
-        List<Movement> lc = new ArrayList<>();
-        Movement c = new Movement();
-        c.setProduct("34984545");
-        c.setCustomer("CTP");
-        lc.add(c);
-        return Flux.fromIterable(lc);
-    }
-
-    @Override
-    public Mono<Movement> create(Movement c) {
-        return Mono.just(c);
-    }
-
-    @Override
-    public Mono<Movement> update(String credito, Movement c) {
+    public Flux<Wallet> list() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void delete(String dniRuc) {
+    public Flux<Wallet> listByDocument(String document) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public Flux<Movement> listByCustomer(String customer) {
+    public Mono<Wallet> get(String id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public Flux<Movement> listByProduct(String account) {
+    public Mono<Wallet> create(Wallet d) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public Flux<Movement> listByCustomerAndAccount(String customer, String account) {
+    public Mono<Wallet> update(String id, Wallet d) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    @Override
+    public void delete(String id) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 
 }
