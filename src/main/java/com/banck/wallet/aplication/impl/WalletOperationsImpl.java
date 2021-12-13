@@ -1,5 +1,6 @@
 package com.banck.wallet.aplication.impl;
 
+import com.banck.wallet.aplication.WalletKafkaOperations;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
@@ -33,6 +34,7 @@ public class WalletOperationsImpl implements WalletOperations {
 
     private final WalletRepository walletRepository;
     public ResponseService responseService;
+    public final WalletKafkaOperations kafkaOperations;
 
     @Override
     public Flux<Wallet> list() {
@@ -84,6 +86,8 @@ public class WalletOperationsImpl implements WalletOperations {
         return walletRepository.create(wallet).flatMap(w -> {
             responseService.setStatus(Status.OK);
             responseService.setData(w);
+            //Enviar Wallet a Kafka para su registro en otros microservicios
+            kafkaOperations.create(wallet);
             return Mono.just(responseService);
         });
     }

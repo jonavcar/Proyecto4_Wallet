@@ -11,7 +11,7 @@ import com.banck.wallet.domain.Wallet;
  * @author jonavcar
  */
 @Component
-public class MockMovementRepository implements WalletRepository {
+public class MockWalletRepository implements WalletRepository {
 
     @Override
     public Flux<Wallet> list() {

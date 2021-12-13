@@ -12,9 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -32,10 +29,6 @@ import com.banck.wallet.aplication.WalletOperations;
 public class WalletController {
 
     Logger logger = LoggerFactory.getLogger(WalletController.class);
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-    DateTimeFormatter formatTime = DateTimeFormatter.ofPattern("HH:mm:ss");
-    DateTimeFormatter formatDate = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-    LocalDateTime dateTime = LocalDateTime.now(ZoneId.of("America/Bogota"));
     private final WalletOperations operations;
 
     @GetMapping

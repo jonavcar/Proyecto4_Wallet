@@ -4,7 +4,7 @@
  */
 package com.banck.wallet.spring.kafka;
 
-import com.banck.wallet.domain.WalletDebitCard;
+import com.banck.wallet.domain.Wallet;
 import java.util.HashMap;
 import java.util.Map;
 import org.apache.kafka.clients.producer.ProducerConfig;
@@ -24,12 +24,12 @@ import org.springframework.kafka.support.serializer.JsonSerializer;
 public class KafkaConfig {
 
     @Bean
-    public KafkaTemplate<String, WalletDebitCard> kafkaTemplate() {
+    public KafkaTemplate<String, Wallet> kafkaTemplate() {
         return new KafkaTemplate<>(producerFactory());
     }
 
     @Bean
-    public ProducerFactory<String, WalletDebitCard> producerFactory() {
+    public ProducerFactory<String, Wallet> producerFactory() {
         Map<String, Object> map = new HashMap<>();
         map.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "127.0.0.1:9092");
         map.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
