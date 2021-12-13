@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
-import java.util.Random;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.banck.wallet.aplication.WalletOperations;
@@ -123,11 +122,4 @@ public class WalletOperationsImpl implements WalletOperations {
             return Mono.just(responseService);
         });
     }
-
-    public static String generateNumbers() {
-        Random rnd = new Random();
-        int number = rnd.nextInt(2);
-        return String.format("%02d", number);
-    }
-
 }

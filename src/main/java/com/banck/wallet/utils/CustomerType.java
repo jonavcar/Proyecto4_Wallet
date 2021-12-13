@@ -9,23 +9,18 @@ package com.banck.wallet.utils;
  * @author jonavcar
  */
 public enum CustomerType {
-    LEGAL_PERSON("PJ") {
-        @Override
-        public boolean equals(String customerType) {
-            return value.equals(customerType);
-        }
-    },
-    NATURAL_PERSON("PN") {
-        @Override
-        public boolean equals(String customerType) {
-            return value.equals(customerType);
-        }
-    };
+    LEGAL_PERSON("PJ"),
+    NATURAL_PERSON("PN");
 
     public final String value;
 
-    public boolean equals(String customerType) {
-        return value.equals(customerType);
+    @Override
+    public String toString() {
+        return value;
+    }
+
+    public boolean equalsName(String otherValue) {
+        return value.equals(otherValue);
     }
 
     private CustomerType(String value) {

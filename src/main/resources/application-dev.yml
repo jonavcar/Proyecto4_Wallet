@@ -2,13 +2,11 @@ server:
   port: 8086
 
 spring:
-    profiles:
-        activate: prd
     application:
         name: wallet-microservice
     data:
         mongodb:
             database: wallet
-            host: localhost
+            host: localhost1
             port: 27017
             
